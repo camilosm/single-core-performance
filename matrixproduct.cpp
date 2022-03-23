@@ -86,7 +86,7 @@ void init_papi(){
 
 
 int main (int argc, char *argv[]){
-	char c;
+	// char c;
 	int lin, col, blockSize;
 	int op;
 	
