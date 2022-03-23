@@ -155,6 +155,9 @@ int main (int argc, char *argv[]){
 			cout << "FAIL reset" << endl;
 	} while(op != 0);
 
+	// for testing without papi
+	exit(0);
+
 	ret = PAPI_remove_event(EventSet, PAPI_L1_DCM);
 	if(ret != PAPI_OK)
 		cout << "FAIL remove event" << endl;
