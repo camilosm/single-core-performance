@@ -17,7 +17,7 @@ void OnMult(int m_ar, int m_br){
 	int i, j, k;
 	double *pha, *phb, *phc;
 
-    pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
+	pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
 	phb = (double *)malloc((m_ar * m_ar) * sizeof(double));
 	phc = (double *)malloc((m_ar * m_ar) * sizeof(double));
 
@@ -30,7 +30,7 @@ void OnMult(int m_ar, int m_br){
 		for(j=0; j<m_br; j++)
 			phb[i*m_br + j] = (double)(i+1);
 
-    time1 = clock();
+	time1 = clock();
 
 	for(i=0; i<m_ar; i++){
 		for( j=0; j<m_br; j++){
@@ -42,7 +42,7 @@ void OnMult(int m_ar, int m_br){
 		}
 	}
 
-    time2 = clock();
+	time2 = clock();
 
 	sprintf(st, "Time: %3.3f seconds\n", (double)(time2 - time1) / CLOCKS_PER_SEC);
 	cout << st;
@@ -53,9 +53,9 @@ void OnMult(int m_ar, int m_br){
 		cout << phc[j] << " ";
 	cout << endl;
 
-    free(pha);
-    free(phb);
-    free(phc);
+	free(pha);
+	free(phb);
+	free(phc);
 }
 
 // add code here for line x line matriz multiplication
@@ -66,7 +66,7 @@ void OnMultLine(int m_ar, int m_br){
 	int i, j, k;
 	double *pha, *phb, *phc;
 
-    pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
+	pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
 	phb = (double *)malloc((m_ar * m_ar) * sizeof(double));
 	phc = (double *)calloc((m_ar * m_ar), sizeof(double));
 
@@ -79,7 +79,7 @@ void OnMultLine(int m_ar, int m_br){
 		for(j=0; j<m_br; j++)
 			phb[i*m_br + j] = (double)(i+1);
 
-    time1 = clock();
+	time1 = clock();
 
 	for(i=0; i<m_ar; i++){
 		for( k=0; k<m_ar; k++){
@@ -89,7 +89,7 @@ void OnMultLine(int m_ar, int m_br){
 		}
 	}
 
-    time2 = clock();
+	time2 = clock();
 
 	sprintf(st, "Time: %3.3f seconds\n", (double)(time2 - time1) / CLOCKS_PER_SEC);
 	cout << st;
@@ -100,14 +100,62 @@ void OnMultLine(int m_ar, int m_br){
 		cout << phc[j] << " ";
 	cout << endl;
 
-    free(pha);
-    free(phb);
-    free(phc);
+	free(pha);
+	free(phb);
+	free(phc);
 }
 
 // add code here for block x block matriz multiplication
 void OnMultBlock(int m_ar, int m_br, int bkSize){
+	SYSTEMTIME time1, time2;
+	
+	char st[100];
+	double temp;
+	int i, j;
+	double *pha, *phb, *phc;
 
+	pha = (double *)malloc((m_ar * m_ar) * sizeof(double));
+	phb = (double *)malloc((m_ar * m_ar) * sizeof(double));
+	phc = (double *)calloc((m_ar * m_ar), sizeof(double));
+
+	for(i=0; i<m_ar; i++)
+		for(j=0; j<m_ar; j++)
+			pha[i*m_ar + j] = (double)1.0;
+
+	for(i=0; i<m_br; i++)
+		for(j=0; j<m_br; j++)
+			phb[i*m_br + j] = (double)(i+1);
+
+	time1 = clock();
+	
+	for(int jj=0; jj<m_ar; jj+=bkSize){
+		for(int kk=0;kk<m_ar; kk+=bkSize){
+			for(int i=0;i<m_ar;i++){
+				for(int j = jj; j<((jj+bkSize)>m_ar?bkSize:(jj+bkSize)); j++){
+					temp = 0;
+					for(int k = kk; k<((kk+bkSize)>m_ar?m_ar:(kk+bkSize)); k++){
+						temp +=  pha[i*m_ar+k] * phb[k*m_br+j];
+					}
+					phc[i*m_ar+j] += temp;
+				}
+			}
+		}
+	}
+
+	time2 = clock();
+
+	sprintf(st, "Time: %3.3f seconds\n", (double)(time2 - time1) / CLOCKS_PER_SEC);
+	cout << st;
+
+	// display 10 elements of the result matrix to verify correctness
+	cout << "Result matrix: " << endl;
+	for(j=0; j<min(10,m_br); j++)
+		cout << phc[j] << " ";
+	cout << endl;
+
+	free(pha);
+	free(phb);
+	free(phc);
 }
 
 void handle_error (int retval){
@@ -198,7 +246,7 @@ int main (int argc, char *argv[]){
 	} while(op != 0);
 
 	// for testing without papi
-	exit(0);
+	// exit(0);
 
 	ret = PAPI_remove_event(EventSet, PAPI_L1_DCM);
 	if(ret != PAPI_OK)
