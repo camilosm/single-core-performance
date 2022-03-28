@@ -2,8 +2,14 @@ all:
 	@g++ -O2 -Wall matrixproduct.cpp -o matrixproduct -lpapi
 	@javac MatrixProduct.java
 
+cpp: all
+	@./matrixproduct
+
+java: all
+	@java MatrixProduct
+
 clean:
-	@rm -f item*.txt
+	@rm -f item*.txt matrixproduct MatrixProduct.class
 
 item1: all
 	@touch item1-cpp.txt item1-java.txt
