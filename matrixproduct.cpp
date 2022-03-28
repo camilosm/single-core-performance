@@ -110,7 +110,7 @@ void OnMultBlock(int m_ar, int m_br, int bkSize){
 	SYSTEMTIME time1, time2;
 	
 	char st[100];
-	double temp;
+	// double temp;
 	int i, j;
 	double *pha, *phb, *phc;
 
@@ -131,12 +131,10 @@ void OnMultBlock(int m_ar, int m_br, int bkSize){
 	for(int jj=0; jj<m_ar; jj+=bkSize){
 		for(int kk=0;kk<m_br; kk+=bkSize){
 			for(int i=0;i<m_ar;i++){
-				for(int j = jj; j<((jj+bkSize)>m_ar?bkSize:(jj+bkSize)); j++){
-					temp = 0;
-					for(int k = kk; k<((kk+bkSize)>m_ar?m_ar:(kk+bkSize)); k++){
-						temp +=  pha[i*m_ar+k] * phb[k*m_br+j];
+				for(int k = kk; k<((kk+bkSize)>m_ar?m_ar:(kk+bkSize)); k++){
+					for(int j = jj; j<((jj+bkSize)>m_ar?bkSize:(jj+bkSize)); j++){
+						phc[i*m_ar+j] +=  pha[i*m_ar+k] * phb[k*m_br+j];
 					}
-					phc[i*m_ar+j] += temp;
 				}
 			}
 		}
@@ -202,17 +200,17 @@ int main (int argc, char *argv[]){
 
 	op=1;
 	do{
-		cout << endl << "1. Multiplication" << endl;
-		cout << "2. Line Multiplication" << endl;
-		cout << "3. Block Multiplication" << endl;
-		cout << "Selection: ";
+		// cout << endl << "1. Multiplication" << endl;
+		// cout << "2. Line Multiplication" << endl;
+		// cout << "3. Block Multiplication" << endl;
+		// cout << "Selection: ";
 		cin >> op;
 		if(op == 0)
 			break;
 		printf("Dimensions: ");
    		cin >> lin;
    		col = lin;
-		cout << endl;
+		// cout << endl;
 
 		// start counting
 		ret = PAPI_start(EventSet);
@@ -227,7 +225,7 @@ int main (int argc, char *argv[]){
 				OnMultLine(lin, col);
 				break;
 			case 3:
-				cout << "Block size: ";
+				// cout << "Block size: ";
 				cin >> blockSize;
 				OnMultBlock(lin, col, blockSize);
 				break;
