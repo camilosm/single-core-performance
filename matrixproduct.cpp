@@ -48,10 +48,10 @@ void OnMult(int m_ar, int m_br){
 	cout << st;
 
 	// display 10 elements of the result matrix to verify correctness
-	cout << "Result matrix: " << endl;
-	for(j=0; j<min(10,m_br); j++)
-		cout << phc[j] << " ";
-	cout << endl;
+	// cout << "Result matrix: " << endl;
+	// for(j=0; j<min(10,m_br); j++)
+	// 	cout << phc[j] << " ";
+	// cout << endl;
 
 	free(pha);
 	free(phb);
@@ -95,10 +95,10 @@ void OnMultLine(int m_ar, int m_br){
 	cout << st;
 
 	// display 10 elements of the result matrix to verify correctness
-	cout << "Result matrix: " << endl;
-	for(j=0; j<min(10,m_br); j++)
-		cout << phc[j] << " ";
-	cout << endl;
+	// cout << "Result matrix: " << endl;
+	// for(j=0; j<min(10,m_br); j++)
+	// 	cout << phc[j] << " ";
+	// cout << endl;
 
 	free(pha);
 	free(phb);
@@ -129,7 +129,7 @@ void OnMultBlock(int m_ar, int m_br, int bkSize){
 	time1 = clock();
 	
 	for(int jj=0; jj<m_ar; jj+=bkSize){
-		for(int kk=0;kk<m_ar; kk+=bkSize){
+		for(int kk=0;kk<m_br; kk+=bkSize){
 			for(int i=0;i<m_ar;i++){
 				for(int j = jj; j<((jj+bkSize)>m_ar?bkSize:(jj+bkSize)); j++){
 					temp = 0;
@@ -148,10 +148,10 @@ void OnMultBlock(int m_ar, int m_br, int bkSize){
 	cout << st;
 
 	// display 10 elements of the result matrix to verify correctness
-	cout << "Result matrix: " << endl;
-	for(j=0; j<min(10,m_br); j++)
-		cout << phc[j] << " ";
-	cout << endl;
+	// cout << "Result matrix: " << endl;
+	// for(j=0; j<min(10,m_br); j++)
+	// 	cout << phc[j] << " ";
+	// cout << endl;
 
 	free(pha);
 	free(phb);
@@ -212,6 +212,7 @@ int main (int argc, char *argv[]){
 		printf("Dimensions: ");
    		cin >> lin;
    		col = lin;
+		cout << endl;
 
 		// start counting
 		ret = PAPI_start(EventSet);
