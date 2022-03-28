@@ -207,7 +207,7 @@ int main (int argc, char *argv[]){
 		cin >> op;
 		if(op == 0)
 			break;
-		printf("Dimensions: ");
+		// printf("Dimensions: ");
    		cin >> lin;
    		col = lin;
 		// cout << endl;
