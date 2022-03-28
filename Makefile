@@ -3,7 +3,7 @@ all:
 	@javac MatrixProduct.java
 
 clean:
-	@rm item*.txt
+	@rm -f item*.txt
 
 item1: all
 	@touch item1-cpp.txt item1-java.txt
@@ -20,4 +20,4 @@ item3: all
 	@touch item3-cpp.txt
 	@./matrixproduct < in3.txt >> item3-cpp.txt
 
-test: item1 item2 item3
+test: clean item1 item2 item3
