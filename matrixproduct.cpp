@@ -200,17 +200,17 @@ int main (int argc, char *argv[]){
 
 	op=1;
 	do{
-		// cout << endl << "1. Multiplication" << endl;
-		// cout << "2. Line Multiplication" << endl;
-		// cout << "3. Block Multiplication" << endl;
-		// cout << "Selection: ";
+		cout << endl << "1. Multiplication" << endl;
+		cout << "2. Line Multiplication" << endl;
+		cout << "3. Block Multiplication" << endl;
+		cout << "Selection: ";
 		cin >> op;
 		if(op == 0)
 			break;
-		// printf("Dimensions: ");
+		printf("Dimensions: ");
    		cin >> lin;
    		col = lin;
-		// cout << endl;
+		cout << endl;
 
 		// start counting
 		ret = PAPI_start(EventSet);
