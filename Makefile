@@ -19,3 +19,5 @@ item2: all
 item3: all
 	@touch item3-cpp.txt
 	@./matrixproduct < in3.txt >> item3-cpp.txt
+
+test: item1 item2 item3
