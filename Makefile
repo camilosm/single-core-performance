@@ -14,7 +14,7 @@ item2: all
 	@touch item2-cpp.txt item2-java.txt item2-cpp-only.txt
 	@./matrixproduct < in2.txt >> item2-cpp.txt
 	@java MatrixProduct < in2.txt >> item2-java.txt
-	@.matrixproduct < in2-cpp-only.txt >> item2-cpp-only.txt
+	@./matrixproduct < in2-cpp-only.txt >> item2-cpp-only.txt
 
 item3: all
 	@touch item3-cpp.txt
