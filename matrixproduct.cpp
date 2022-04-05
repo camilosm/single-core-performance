@@ -174,12 +174,18 @@ void init_papi(){
 
 
 int main (int argc, char *argv[]){
-	// char c;
-	int lin, col, blockSize;
-	int op;
+	if(argc<2 || argc>3){
+		printf("%s\n", argv[0]);
+		printf("Usage: %s dimension option [blocksize]\n", argv[0]);
+		return(1);
+	}
+
+	int dimension = stoi(argv[1]);
+	int option = stoi(argv[2]);
+	int blocksize;
 	
 	int EventSet = PAPI_NULL;
-  	long long values[2];
+  	long long values[2] = {-1,-1};
   	int ret;
 
 	ret = PAPI_library_init(PAPI_VER_CURRENT);
@@ -198,54 +204,38 @@ int main (int argc, char *argv[]){
 	if(ret != PAPI_OK)
 		cout << "ERROR: PAPI_L2_DCM" << endl;
 
-	op=1;
-	do{
-		cout << endl << "1. Multiplication" << endl;
-		cout << "2. Line Multiplication" << endl;
-		cout << "3. Block Multiplication" << endl;
-		cout << "Selection: ";
-		cin >> op;
-		if(op == 0)
+	// start counting
+	ret = PAPI_start(EventSet);
+	if(ret != PAPI_OK)
+		cout << "ERROR: Start PAPI" << endl;
+
+	switch (option){
+		case 1:
+			OnMult(dimension, dimension);
 			break;
-		printf("Dimensions: ");
-   		cin >> lin;
-   		col = lin;
-		cout << endl;
+		case 2:
+			OnMultLine(dimension, dimension);
+			break;
+		case 3:
+			blocksize = stoi(argv[3]);
+			OnMultBlock(dimension, dimension, blocksize);
+			break;
+		default:
+			break;
+	}
 
-		// start counting
-		ret = PAPI_start(EventSet);
-		if(ret != PAPI_OK)
-			cout << "ERROR: Start PAPI" << endl;
+	ret = PAPI_stop(EventSet, values);
+	if(ret != PAPI_OK)
+		cout << "ERROR: Stop PAPI" << endl;
+	printf("L1 DCM: %lld\n", values[0]);
+	printf("L2 DCM: %lld\n", values[1]);
 
-		switch (op){
-			case 1:
-				OnMult(lin, col);
-				break;
-			case 2:
-				OnMultLine(lin, col);
-				break;
-			case 3:
-				// cout << "Block size: ";
-				cin >> blockSize;
-				OnMultBlock(lin, col, blockSize);
-				break;
-			default:
-				break;
-		}
-
-  		ret = PAPI_stop(EventSet, values);
-  		if(ret != PAPI_OK)
-		  	cout << "ERROR: Stop PAPI" << endl;
-  		printf("L1 DCM: %lld\n", values[0]);
-  		printf("L2 DCM: %lld\n", values[1]);
-
-		ret = PAPI_reset(EventSet);
-		if(ret != PAPI_OK)
-			cout << "FAIL reset" << endl;
-	} while(op != 0);
-
+	ret = PAPI_reset(EventSet);
+	if(ret != PAPI_OK)
+		cout << "FAIL reset" << endl;
+	
 	// for testing without papi
-	// exit(0);
+	exit(0);
 
 	ret = PAPI_remove_event(EventSet, PAPI_L1_DCM);
 	if(ret != PAPI_OK)
