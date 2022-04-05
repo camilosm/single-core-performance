@@ -177,7 +177,9 @@ int main (int argc, char *argv[]){
 		return(1);
 	}
 
+	int lin, col;
 	int dimension = stoi(argv[1]);
+	lin = col = dimension;
 	int option = stoi(argv[2]);
 	int blocksize;
 	
@@ -208,14 +210,14 @@ int main (int argc, char *argv[]){
 
 	switch (option){
 		case 1:
-			OnMult(dimension, dimension);
+			OnMult(lin, col);
 			break;
 		case 2:
-			OnMultLine(dimension, dimension);
+			OnMultLine(lin, col);
 			break;
 		case 3:
 			blocksize = stoi(argv[3]);
-			OnMultBlock(dimension, dimension, blocksize);
+			OnMultBlock(lin, col, blocksize);
 			break;
 		default:
 			break;
