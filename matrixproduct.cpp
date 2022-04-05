@@ -193,20 +193,20 @@ int main (int argc, char *argv[]){
 
 	ret = PAPI_create_eventset(&EventSet);
 	if(ret != PAPI_OK)
-		cout << "ERROR: create eventset" << endl;
+		cout << "PAPI ERROR: create eventset" << endl;
 
 	ret = PAPI_add_event(EventSet, PAPI_L1_DCM);
 	if(ret != PAPI_OK)
-		cout << "ERROR: PAPI_L1_DCM" << endl;
+		cout << "PAPI ERROR: add event PAPI_L1_DCM" << endl;
 
 	ret = PAPI_add_event(EventSet, PAPI_L2_DCM);
 	if(ret != PAPI_OK)
-		cout << "ERROR: PAPI_L2_DCM" << endl;
+		cout << "PAPI ERROR: add event PAPI_L2_DCM" << endl;
 
 	// start counting
 	ret = PAPI_start(EventSet);
 	if(ret != PAPI_OK)
-		cout << "ERROR: Start PAPI" << endl;
+		cout << "PAPI ERROR: start counting" << endl;
 
 	switch (option){
 		case 1:
@@ -225,26 +225,28 @@ int main (int argc, char *argv[]){
 
 	ret = PAPI_stop(EventSet, values);
 	if(ret != PAPI_OK)
-		cout << "ERROR: Stop PAPI" << endl;
-	printf("L1 DCM: %lld\n", values[0]);
-	printf("L2 DCM: %lld\n", values[1]);
-
+		cout << "PAPI ERROR: stop counting" << endl;
+	else{
+		printf("L1 DCM: %lld\n", values[0]);
+		printf("L2 DCM: %lld\n", values[1]);
+	}
+	
 	ret = PAPI_reset(EventSet);
 	if(ret != PAPI_OK)
-		cout << "FAIL reset" << endl;
+		cout << "PAPI FAIL reset" << endl;
 	
 	// for testing without papi
 	exit(0);
 
 	ret = PAPI_remove_event(EventSet, PAPI_L1_DCM);
 	if(ret != PAPI_OK)
-		cout << "FAIL remove event" << endl;
+		cout << "PAPI FAIL remove event PAPI_L1_DCM" << endl;
 
 	ret = PAPI_remove_event(EventSet, PAPI_L2_DCM);
 	if(ret != PAPI_OK)
-		cout << "FAIL remove event" << endl;
+		cout << "PAPI FAIL remove event PAPI_L2_DCM" << endl;
 
 	ret = PAPI_destroy_eventset(&EventSet);
 	if(ret != PAPI_OK)
-		cout << "FAIL destroy" << endl;
+		cout << "PAPI FAIL destroy eventset" << endl;
 }
