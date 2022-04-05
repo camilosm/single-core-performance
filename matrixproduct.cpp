@@ -171,7 +171,7 @@ void init_papi(){
 
 
 int main (int argc, char *argv[]){
-	if(argc<2 || argc>3){
+	if(argc<2 || argc>4){
 		printf("%s\n", argv[0]);
 		printf("Usage: %s dimension option [blocksize]\n", argv[0]);
 		return(1);
