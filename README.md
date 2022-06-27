@@ -5,6 +5,7 @@ First project of the discipline CPD from FEUP's Informatics and Computing Engine
 To run the program, the following commands run the versions in C++ and Java, respectively:
 
 $ make cpp
+
 $ make java
 
 To run all tests and get output files:
